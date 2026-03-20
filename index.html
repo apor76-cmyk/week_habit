@@ -154,7 +154,8 @@ td.task-cell {
 }
 td.stat { font-size: 12px; color: var(--sub); font-weight: 600; min-width: 38px; }
 td.pct  { font-size: 12px; font-weight: 700; color: var(--accent); }
-th.today-col { background: rgba(255,255,255,.22) !important; position: relative; }
+th.today-col { background: rgba(255,255,255,.22) !important; position: relative; color: #fff !important; }
+th.today-col * { color: #fff !important; opacity: 1 !important; }
 th.today-col::after {
   content: ''; position: absolute; bottom: 0; left: 50%;
   transform: translateX(-50%); width: 4px; height: 4px; border-radius: 50%; background: white;
@@ -175,8 +176,8 @@ td.del-td { padding: 6px; min-width: 48px; }
   cursor: pointer; -webkit-tap-highlight-color: transparent;
 }
 .del-btn:active { opacity: .8; }
-th.sat { background: rgba(255,255,255,.15) !important; color: #bfdbfe !important; }
-th.sun { background: rgba(255,255,255,.15) !important; color: #fca5a5 !important; }
+th.sat { color: #7dd3fc !important; }
+th.sun { color: #fb7185 !important; }
 tbody tr:last-child td { border-bottom: none; }
 .empty-state { padding: 40px 20px; text-align: center; color: var(--sub); font-size: 14px; }
 .empty-state .emoji { font-size: 36px; margin-bottom: 10px; }
@@ -338,11 +339,6 @@ body.dark .btn-danger { background: #3b0f0f; border-color: #7f1d1d; }
       권한: <code>repo</code> 또는 <code>contents:write</code> (fine-grained)
     </div>
 
-    <div class="fixed-info">
-      📦 저장 위치
-      <span>github.com / apor76-cmyk / data / weekly-tracker.json</span>
-    </div>
-
     <div class="field-group">
       <div class="field-label">GitHub Personal Access Token</div>
       <div class="field-wrap">
@@ -379,13 +375,10 @@ body.dark .btn-danger { background: #3b0f0f; border-color: #7f1d1d; }
     </div>
   </div>
 
-  <!-- GitHub 상태 바 -->
-  <div class="gh-bar">
-    <div class="gh-info">
-      <div class="gh-info-title">GitHub 연결</div>
-      <div class="gh-info-detail" id="ghStatus">—</div>
-      <div class="gh-info-time"   id="ghTime"></div>
-    </div>
+  <!-- GitHub 상태 (숨김 — 토스트로만 표시) -->
+  <div style="display:none">
+    <div id="ghStatus"></div>
+    <div id="ghTime"></div>
   </div>
 
   <!-- Week Navigation -->
@@ -541,8 +534,10 @@ function render() {
   for (let i = 0; i < 7; i++) {
     const th  = document.getElementById('h' + i)
     const day = new Date(mon); day.setDate(mon.getDate() + i)
-    th.innerHTML = `${dayNames[i]}<br><span style="font-size:10px;font-weight:400;opacity:.85">${fmtDate(day)}</span>`
-    th.classList.toggle('today-col', i === todayDOW && weekOffset === 0)
+    const isToday = i === todayDOW && weekOffset === 0
+    const textColor = isToday ? 'color:#fb923c;' : ''
+    th.innerHTML = `<span style="${textColor}font-weight:${isToday?'800':'700'}">${dayNames[i]}</span><br><span style="font-size:10px;font-weight:400;opacity:1;${textColor}">${fmtDate(day)}</span>`
+    th.classList.toggle('today-col', isToday)
   }
 
   const tbody = document.getElementById('tbody')
