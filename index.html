@@ -13,9 +13,9 @@
   --text: #111827;
   --sub: #6b7280;
   --accent: #6366f1;
-  --accent2: #818cf8;
   --danger: #ef4444;
   --success: #22c55e;
+  --warn: #f59e0b;
   --line: rgba(0,0,0,0.07);
   --today-bg: rgba(99,102,241,0.10);
   --shadow: 0 4px 24px rgba(99,102,241,0.10);
@@ -26,368 +26,365 @@
   --safe-right: env(safe-area-inset-right, 0px);
 }
 body.dark {
-  --bg: #0f172a;
-  --card: #1e293b;
-  --text: #e2e8f0;
-  --sub: #94a3b8;
+  --bg: #0f172a; --card: #1e293b; --text: #e2e8f0; --sub: #94a3b8;
   --line: rgba(255,255,255,0.07);
   --today-bg: rgba(99,102,241,0.22);
   --shadow: 0 4px 24px rgba(0,0,0,0.3);
 }
-
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   font-family: 'Noto Sans KR', -apple-system, sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  background: var(--bg); color: var(--text);
   min-height: 100dvh;
   padding-top: var(--safe-top);
   padding-bottom: calc(var(--safe-bottom) + 16px);
-  padding-left: var(--safe-left);
-  padding-right: var(--safe-right);
-  transition: background 0.3s, color 0.3s;
+  padding-left: var(--safe-left); padding-right: var(--safe-right);
+  transition: background .3s, color .3s;
 }
 
-/* ── App Wrapper ── */
-.app {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 16px 14px;
-}
+/* ── Layout ── */
+.app { max-width: 960px; margin: 0 auto; padding: 16px 14px; }
 
 /* ── Header ── */
 .header {
-  display: flex;
-  align-items: center;
+  display: flex; align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
-  gap: 10px;
+  margin-bottom: 16px; gap: 8px;
 }
 .header-title {
-  font-size: 20px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  font-size: 19px; font-weight: 700;
+  white-space: nowrap; display: flex; align-items: center; gap: 6px;
+}
+.header-actions { display: flex; gap: 6px; align-items: center; }
+
+.icon-btn {
+  min-width: 40px; height: 40px;
+  padding: 0 10px;
+  border-radius: 12px;
+  background: var(--card); border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+  font-size: 15px; font-weight: 600; font-family: inherit;
+  cursor: pointer; color: var(--text);
+  transition: transform .12s, background .15s;
+  -webkit-tap-highlight-color: transparent;
   white-space: nowrap;
 }
-.header-actions {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
+.icon-btn:active { transform: scale(0.91); }
+.icon-btn.upload { background: #e0f2fe; color: #0369a1; border-color: #bae6fd; }
+.icon-btn.download { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
+body.dark .icon-btn.upload   { background: #0c3a5a; color: #7dd3fc; border-color: #1e4d6b; }
+body.dark .icon-btn.download { background: #052e16; color: #86efac; border-color: #14532d; }
 
-/* ── Icon Buttons (header) ── */
-.icon-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  background: var(--card);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  cursor: pointer;
-  color: var(--text);
-  transition: transform 0.15s, box-shadow 0.15s;
-  -webkit-tap-highlight-color: transparent;
-}
-.icon-btn:active { transform: scale(0.93); }
-
-/* ── Week Nav Bar ── */
+/* ── Week Nav ── */
 .week-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: var(--card);
-  border-radius: var(--radius);
-  padding: 10px 14px;
-  margin-bottom: 12px;
-  box-shadow: var(--shadow);
-  border: 1px solid var(--line);
-  gap: 8px;
+  display: flex; align-items: center;
+  background: var(--card); border-radius: var(--radius);
+  padding: 10px 14px; margin-bottom: 12px;
+  box-shadow: var(--shadow); border: 1px solid var(--line); gap: 8px;
 }
 .week-nav-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: var(--bg);
-  border: 1px solid var(--line);
-  font-size: 16px;
-  cursor: pointer;
-  color: var(--text);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  -webkit-tap-highlight-color: transparent;
-  transition: background 0.15s;
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--bg); border: 1px solid var(--line);
+  font-size: 18px; cursor: pointer; color: var(--text);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent; transition: background .12s;
 }
 .week-nav-btn:active { background: var(--today-bg); }
-.week-label-wrap {
-  flex: 1;
-  text-align: center;
-}
-.week-label {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--accent);
-}
-.week-dates {
-  font-size: 11px;
-  color: var(--sub);
-  margin-top: 1px;
-}
+.week-label-wrap { flex: 1; text-align: center; }
+.week-label  { font-size: 15px; font-weight: 700; color: var(--accent); }
+.week-dates  { font-size: 11px; color: var(--sub); margin-top: 1px; }
 .today-btn {
-  font-size: 12px;
-  font-weight: 600;
-  padding: 6px 12px;
-  border-radius: 10px;
-  background: var(--accent);
-  color: white;
-  border: none;
-  cursor: pointer;
-  white-space: nowrap;
-  -webkit-tap-highlight-color: transparent;
+  font-size: 12px; font-weight: 600; padding: 6px 12px;
+  border-radius: 10px; background: var(--accent); color: white; border: none;
+  cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent;
 }
 
-/* ── Add Task Bar ── */
-.add-bar {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 14px;
-}
+/* ── Add bar ── */
+.add-bar { display: flex; gap: 8px; margin-bottom: 14px; }
 .add-bar input {
-  flex: 1;
-  padding: 12px 14px;
-  border-radius: var(--radius);
-  border: 1.5px solid var(--line);
-  background: var(--card);
-  color: var(--text);
-  font-size: 14px;
-  font-family: inherit;
-  outline: none;
-  transition: border-color 0.2s;
-  box-shadow: var(--shadow);
-  min-width: 0;
+  flex: 1; min-width: 0; padding: 12px 14px;
+  border-radius: var(--radius); border: 1.5px solid var(--line);
+  background: var(--card); color: var(--text);
+  font-size: 14px; font-family: inherit; outline: none;
+  box-shadow: var(--shadow); transition: border-color .2s;
 }
 .add-bar input:focus { border-color: var(--accent); }
 .add-bar input::placeholder { color: var(--sub); }
 .add-btn {
-  padding: 12px 18px;
-  border-radius: var(--radius);
-  background: var(--accent);
-  color: white;
-  border: none;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  white-space: nowrap;
-  box-shadow: var(--shadow);
+  padding: 12px 18px; border-radius: var(--radius);
+  background: var(--accent); color: white; border: none;
+  font-size: 14px; font-weight: 700; font-family: inherit;
+  cursor: pointer; white-space: nowrap; box-shadow: var(--shadow);
   -webkit-tap-highlight-color: transparent;
 }
-.add-btn:active { opacity: 0.85; }
+.add-btn:active { opacity: .85; }
 
-/* ── Card ── */
+/* ── Card / Table ── */
 .card {
-  background: var(--card);
-  border-radius: var(--radius);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  margin-bottom: 12px;
+  background: var(--card); border-radius: var(--radius);
+  border: 1px solid var(--line); box-shadow: var(--shadow);
+  overflow: hidden; margin-bottom: 12px;
 }
-
-/* ── Table scroll wrapper ── */
 .table-wrap {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  /* subtle scroll indicator */
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
   background:
     linear-gradient(to right, var(--card) 20px, transparent 20px),
-    linear-gradient(to left, var(--card) 20px, transparent 20px),
-    radial-gradient(ellipse at left, rgba(0,0,0,.12) 0%, transparent 70%) 0 50%,
-    radial-gradient(ellipse at right, rgba(0,0,0,.12) 0%, transparent 70%) 100% 50%;
+    linear-gradient(to left,  var(--card) 20px, transparent 20px),
+    radial-gradient(ellipse at left,  rgba(0,0,0,.1) 0%, transparent 70%) 0 50%,
+    radial-gradient(ellipse at right, rgba(0,0,0,.1) 0%, transparent 70%) 100% 50%;
   background-size: 20px 100%, 20px 100%, 10px 60%, 10px 60%;
   background-attachment: local, local, scroll, scroll;
   background-repeat: no-repeat;
 }
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 580px; /* 최소 너비 보장 — 가로 스크롤 트리거 */
-}
-
-th, td {
-  padding: 10px 8px;
-  text-align: center;
-  border-bottom: 1px solid var(--line);
-  font-size: 13px;
-  white-space: nowrap;
-}
-
+table { width: 100%; border-collapse: collapse; min-width: 580px; }
+th, td { padding: 10px 8px; text-align: center; border-bottom: 1px solid var(--line); font-size: 13px; white-space: nowrap; }
 thead th {
-  background: var(--accent);
-  color: white;
-  font-weight: 700;
-  font-size: 12px;
-  padding: 11px 8px;
-  position: sticky;
-  top: 0;
-  z-index: 2;
+  background: var(--accent); color: white;
+  font-weight: 700; font-size: 12px; padding: 11px 8px;
+  position: sticky; top: 0; z-index: 2;
 }
-thead th:first-child {
-  text-align: left;
-  position: sticky;
-  left: 0;
-  z-index: 3;
-  min-width: 90px;
-}
-
-/* 목록 셀 sticky */
+thead th:first-child { text-align: left; position: sticky; left: 0; z-index: 3; min-width: 90px; }
 td.task-cell {
-  text-align: left;
-  font-weight: 600;
-  font-size: 13px;
-  position: sticky;
-  left: 0;
-  background: var(--card);
-  z-index: 1;
+  text-align: left; font-weight: 600; font-size: 13px;
+  position: sticky; left: 0; background: var(--card); z-index: 1;
   border-right: 1px solid var(--line);
-  max-width: 110px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  max-width: 110px; overflow: hidden; text-overflow: ellipsis;
 }
-
-/* stat cells */
-td.stat {
-  font-size: 12px;
-  color: var(--sub);
-  font-weight: 600;
-  min-width: 38px;
-}
-
-/* 퍼센트 */
-td.pct {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--accent);
-}
-
-/* 오늘 컬럼 강조 */
-th.today-col { background: rgba(255,255,255,0.2) !important; position: relative; }
+td.stat { font-size: 12px; color: var(--sub); font-weight: 600; min-width: 38px; }
+td.pct  { font-size: 12px; font-weight: 700; color: var(--accent); }
+th.today-col { background: rgba(255,255,255,.22) !important; position: relative; }
 th.today-col::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 50%;
-  transform: translateX(-50%);
-  width: 4px; height: 4px;
-  border-radius: 50%;
-  background: white;
+  content: ''; position: absolute; bottom: 0; left: 50%;
+  transform: translateX(-50%); width: 4px; height: 4px; border-radius: 50%; background: white;
 }
 td.today-col { background: var(--today-bg); }
-
-/* 체크 셀 */
 td.cell {
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 800;
-  min-width: 42px;
-  height: 44px;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  transition: background 0.12s;
-  border-radius: 0;
+  cursor: pointer; font-size: 16px; font-weight: 800;
+  min-width: 42px; height: 44px; user-select: none;
+  -webkit-tap-highlight-color: transparent; transition: background .12s;
 }
-td.cell:active { opacity: 0.6; }
+td.cell:active { opacity: .6; }
 td.cell.o { color: var(--success); }
 td.cell.x { color: var(--danger); }
-
-/* 삭제 버튼 */
 td.del-td { padding: 6px; min-width: 48px; }
 .del-btn {
-  background: var(--danger);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 6px 10px;
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
+  background: var(--danger); color: white; border: none;
+  border-radius: 8px; padding: 6px 10px; font-size: 11px; font-weight: 700;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
 }
-.del-btn:active { opacity: 0.8; }
-
-/* 토요일 헤더 색상 */
-th.sat { background: rgba(255,255,255,0.15) !important; color: #bfdbfe !important; }
-th.sun { background: rgba(255,255,255,0.15) !important; color: #fca5a5 !important; }
-
-/* tbody 마지막 행 border 제거 */
+.del-btn:active { opacity: .8; }
+th.sat { background: rgba(255,255,255,.15) !important; color: #bfdbfe !important; }
+th.sun { background: rgba(255,255,255,.15) !important; color: #fca5a5 !important; }
 tbody tr:last-child td { border-bottom: none; }
-
-/* ── 빈 상태 ── */
-.empty-state {
-  padding: 40px 20px;
-  text-align: center;
-  color: var(--sub);
-  font-size: 14px;
-}
+.empty-state { padding: 40px 20px; text-align: center; color: var(--sub); font-size: 14px; }
 .empty-state .emoji { font-size: 36px; margin-bottom: 10px; }
 
-/* ── 하단 유틸 버튼 ── */
-.util-bar {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
+/* ── Util bar ── */
+.util-bar { display: flex; gap: 8px; flex-wrap: wrap; }
 .util-btn {
-  flex: 1;
-  min-width: 80px;
-  padding: 11px 10px;
-  border-radius: var(--radius);
-  background: var(--card);
-  border: 1px solid var(--line);
-  color: var(--text);
-  font-size: 13px;
-  font-weight: 600;
-  font-family: inherit;
-  cursor: pointer;
-  box-shadow: var(--shadow);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  -webkit-tap-highlight-color: transparent;
-  transition: background 0.15s;
+  flex: 1; min-width: 80px; padding: 11px 10px;
+  border-radius: var(--radius); background: var(--card);
+  border: 1px solid var(--line); color: var(--text);
+  font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer;
+  box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; gap: 5px;
+  -webkit-tap-highlight-color: transparent; transition: background .15s;
 }
 .util-btn:active { background: var(--today-bg); }
-
-/* 파일 인풋 숨기기 */
 #fileInput { display: none; }
 
-/* ── 반응형 ── */
+/* ── GitHub 상태 바 ── */
+.gh-bar {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--card); border-radius: var(--radius);
+  border: 1px solid var(--line); box-shadow: var(--shadow);
+  padding: 10px 14px; margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.gh-info {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.gh-info-title {
+  font-size: 12px; font-weight: 700; color: var(--sub);
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.gh-info-detail {
+  font-size: 12px; color: var(--text); font-weight: 600;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.gh-info-detail.no-token { color: var(--warn); }
+.gh-info-time { font-size: 11px; color: var(--sub); margin-top: 1px; }
+
+.gh-actions { display: flex; gap: 6px; flex-shrink: 0; }
+
+/* ── MODAL ── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.55); backdrop-filter: blur(4px);
+  z-index: 100; display: flex; align-items: center; justify-content: center;
+  padding: 20px; transition: opacity .2s;
+}
+.modal-overlay.hidden { display: none; }
+.modal {
+  background: var(--card); border-radius: 20px; padding: 28px 24px;
+  width: 100%; max-width: 420px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.25); border: 1px solid var(--line);
+}
+.modal-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+.modal-desc  { font-size: 13px; color: var(--sub); margin-bottom: 20px; line-height: 1.65; }
+.modal-desc a { color: var(--accent); text-decoration: none; }
+.modal-desc a:hover { text-decoration: underline; }
+.modal-desc code {
+  background: var(--bg); color: var(--accent);
+  padding: 2px 6px; border-radius: 6px; font-size: 12px; font-family: monospace;
+}
+
+.field-group { margin-bottom: 18px; }
+.field-label {
+  font-size: 11px; font-weight: 700; color: var(--sub);
+  text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px;
+}
+.field-wrap { position: relative; }
+.field-wrap input {
+  width: 100%; padding: 12px 44px 12px 14px;
+  border-radius: 12px; border: 1.5px solid var(--line);
+  background: var(--bg); color: var(--text);
+  font-size: 14px; font-family: inherit; outline: none;
+  transition: border-color .2s;
+}
+.field-wrap input:focus { border-color: var(--accent); }
+.field-wrap input::placeholder { color: var(--sub); }
+.eye-btn {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; cursor: pointer; font-size: 16px;
+  color: var(--sub); padding: 4px; -webkit-tap-highlight-color: transparent;
+}
+.field-hint { font-size: 11px; color: var(--sub); margin-top: 5px; }
+
+/* fixed info chip */
+.fixed-info {
+  background: var(--today-bg); border-radius: 10px;
+  padding: 10px 14px; margin-bottom: 18px;
+  font-size: 13px; color: var(--accent); font-weight: 600;
+  display: flex; flex-direction: column; gap: 3px;
+}
+.fixed-info span { font-weight: 400; color: var(--sub); font-size: 12px; }
+
+.modal-actions { display: flex; gap: 8px; margin-top: 6px; }
+.btn-primary {
+  flex: 1; padding: 13px; border-radius: 12px;
+  background: var(--accent); color: white; border: none;
+  font-size: 14px; font-weight: 700; font-family: inherit;
+  cursor: pointer; transition: opacity .15s;
+}
+.btn-primary:active { opacity: .8; }
+.btn-secondary {
+  padding: 13px 18px; border-radius: 12px;
+  background: var(--bg); color: var(--sub);
+  border: 1px solid var(--line);
+  font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer;
+}
+.btn-danger {
+  padding: 13px 14px; border-radius: 12px;
+  background: #fee2e2; color: var(--danger); border: 1px solid #fecaca;
+  font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer;
+}
+body.dark .btn-danger { background: #3b0f0f; border-color: #7f1d1d; }
+
+/* ── Spinner overlay (버튼 위) ── */
+.spinning { animation: spin .7s linear infinite; display: inline-block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Toast ── */
+.toast {
+  position: fixed; bottom: calc(var(--safe-bottom) + 72px); left: 50%;
+  transform: translateX(-50%) translateY(16px);
+  background: #1e293b; color: white;
+  padding: 10px 20px; border-radius: 30px;
+  font-size: 13px; font-weight: 600;
+  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  opacity: 0; transition: opacity .3s, transform .3s;
+  pointer-events: none; z-index: 200;
+  white-space: nowrap; max-width: 90vw; text-align: center;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── Responsive ── */
 @media (max-width: 480px) {
   .app { padding: 12px 10px; }
-  .header-title { font-size: 17px; }
+  .header-title { font-size: 16px; }
+  .icon-btn { font-size: 13px; }
   th, td { padding: 9px 6px; font-size: 12px; }
   td.cell { font-size: 15px; min-width: 38px; height: 42px; }
   table { min-width: 520px; }
+  .modal { padding: 22px 18px; }
 }
 </style>
 </head>
 <body>
 
+<!-- ── Token Modal ── -->
+<div class="modal-overlay hidden" id="tokenModal">
+  <div class="modal">
+    <div class="modal-title">🔑 GitHub 토큰 설정</div>
+    <div class="modal-desc">
+      Personal Access Token을 입력하면 <strong>apor76-cmyk/data</strong> 저장소를 통해 기기간 동기화가 가능합니다.<br><br>
+      토큰 발급:
+      <a href="https://github.com/settings/tokens/new?scopes=repo&description=WeeklyTracker" target="_blank">
+        github.com/settings/tokens
+      </a><br>
+      권한: <code>repo</code> 또는 <code>contents:write</code> (fine-grained)
+    </div>
+
+    <div class="fixed-info">
+      📦 저장 위치
+      <span>github.com / apor76-cmyk / data / weekly-tracker.json</span>
+    </div>
+
+    <div class="field-group">
+      <div class="field-label">GitHub Personal Access Token</div>
+      <div class="field-wrap">
+        <input type="password" id="tokenInput"
+          placeholder="ghp_xxxxxxxxxxxxxxxxxxxx 또는 github_pat_..."
+          autocomplete="off" spellcheck="false">
+        <button class="eye-btn" onclick="toggleEye()" id="eyeBtn">👁</button>
+      </div>
+      <div class="field-hint">토큰은 이 기기의 localStorage에만 저장됩니다</div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-danger"  onclick="resetToken()">🗑 초기화</button>
+      <button class="btn-secondary" onclick="closeTokenModal()">취소</button>
+      <button class="btn-primary"   onclick="saveToken()">저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Toast ── -->
+<div class="toast" id="toast"></div>
+
+<!-- ── App ── -->
 <div class="app">
 
   <!-- Header -->
   <div class="header">
     <div class="header-title">📅 Weekly Tracker</div>
     <div class="header-actions">
-      <button class="icon-btn" onclick="toggleDark()" title="다크모드">🌙</button>
+      <button class="icon-btn upload"   onclick="ghUpload()"   id="btnUp"   title="GitHub에 업로드">↑ 업로드</button>
+      <button class="icon-btn download" onclick="ghDownload()" id="btnDown" title="GitHub에서 다운로드">↓ 다운로드</button>
+      <button class="icon-btn" onclick="openTokenModal()" title="GitHub 설정">🔑</button>
+      <button class="icon-btn" onclick="toggleDark()"    title="다크모드">🌙</button>
+    </div>
+  </div>
+
+  <!-- GitHub 상태 바 -->
+  <div class="gh-bar">
+    <div class="gh-info">
+      <div class="gh-info-title">GitHub 연결</div>
+      <div class="gh-info-detail" id="ghStatus">—</div>
+      <div class="gh-info-time"   id="ghTime"></div>
     </div>
   </div>
 
@@ -409,21 +406,16 @@ tbody tr:last-child td { border-bottom: none; }
     <button class="add-btn" onclick="addTask()">+ 추가</button>
   </div>
 
-  <!-- Table Card -->
+  <!-- Table -->
   <div class="card">
     <div class="table-wrap">
       <table>
         <thead>
           <tr>
             <th>목록</th>
-            <th>월누계</th>
-            <th>연누계</th>
-            <th>달성률</th>
-            <th id="h0">월</th>
-            <th id="h1">화</th>
-            <th id="h2">수</th>
-            <th id="h3">목</th>
-            <th id="h4">금</th>
+            <th>월누계</th><th>연누계</th><th>달성률</th>
+            <th id="h0">월</th><th id="h1">화</th><th id="h2">수</th>
+            <th id="h3">목</th><th id="h4">금</th>
             <th id="h5" class="sat">토</th>
             <th id="h6" class="sun">일</th>
             <th>삭제</th>
@@ -438,9 +430,9 @@ tbody tr:last-child td { border-bottom: none; }
     </div>
   </div>
 
-  <!-- Utility Buttons -->
+  <!-- Util -->
   <div class="util-bar">
-    <button class="util-btn" onclick="backup()">💾 백업</button>
+    <button class="util-btn" onclick="backup()">💾 로컬백업</button>
     <button class="util-btn" onclick="document.getElementById('fileInput').click()">📂 복원</button>
     <input type="file" id="fileInput" accept=".json" onchange="restore(event)">
   </div>
@@ -448,35 +440,56 @@ tbody tr:last-child td { border-bottom: none; }
 </div>
 
 <script>
+/* ════════════════════════════════
+   CONFIG
+════════════════════════════════ */
+const GH_OWNER    = 'apor76-cmyk'
+const GH_REPO     = 'data'
+const GH_FILE     = 'weekly-tracker.json'
+const GH_BRANCH   = 'main'
+const GH_API_BASE = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`
+
+/* ════════════════════════════════
+   STATE
+════════════════════════════════ */
 const DAYS = 7
 let weekOffset = 0
 let store = JSON.parse(localStorage.getItem('trackerApp') || '[]')
+let ghToken = localStorage.getItem('trackerGhToken') || ''
 
-const todayDOW = (new Date().getDay() + 6) % 7 // 0=월 ~ 6=일
+const todayDOW = (new Date().getDay() + 6) % 7  // 0=월~6=일
 
+/* ════════════════════════════════
+   DATE HELPERS
+════════════════════════════════ */
 function getMonday(offset) {
   const d = new Date()
   const day = d.getDay()
-  const diff = (day === 0 ? -6 : 1 - day) // 이번주 월요일
-  d.setDate(d.getDate() + diff + offset * 7)
-  d.setHours(0,0,0,0)
+  d.setDate(d.getDate() + (day === 0 ? -6 : 1 - day) + offset * 7)
+  d.setHours(0, 0, 0, 0)
   return d
 }
-
 function weekKey() {
   const mon = getMonday(weekOffset)
   const y = mon.getFullYear()
   const jan1 = new Date(y, 0, 1)
   const w = Math.ceil(((mon - jan1) / 86400000 + jan1.getDay() + 1) / 7)
-  return `${y}-W${String(w).padStart(2,'0')}`
+  return `${y}-W${String(w).padStart(2, '0')}`
+}
+function fmtDate(d) { return `${d.getMonth() + 1}/${d.getDate()}` }
+function fmtNow() {
+  const d = new Date()
+  return `${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`
 }
 
-function formatDate(d) {
-  return `${d.getMonth()+1}/${d.getDate()}`
-}
-
+/* ════════════════════════════════
+   STORAGE
+════════════════════════════════ */
 function save() { localStorage.setItem('trackerApp', JSON.stringify(store)) }
 
+/* ════════════════════════════════
+   TRACKER LOGIC
+════════════════════════════════ */
 function addTask() {
   const el = document.getElementById('taskInput')
   const name = el.value.trim()
@@ -485,77 +498,69 @@ function addTask() {
   el.value = ''
   save(); render()
 }
-
 function deleteTask(i) {
   if (!confirm(`"${store[i].name}"을(를) 삭제할까요?`)) return
   store.splice(i, 1)
   save(); render()
 }
-
 function toggle(i, d) {
   const wk = weekKey()
   if (!store[i].records[wk]) store[i].records[wk] = Array(DAYS).fill(null)
-  let v = store[i].records[wk][d]
+  const v = store[i].records[wk][d]
   if (v === 'O') {
     store[i].records[wk][d] = 'X'
-    store[i].monthly = Math.max(0, (store[i].monthly||0) - 1)
-    store[i].yearly  = Math.max(0, (store[i].yearly||0) - 1)
+    store[i].monthly = Math.max(0, (store[i].monthly || 0) - 1)
+    store[i].yearly  = Math.max(0, (store[i].yearly  || 0) - 1)
   } else if (v === 'X') {
     store[i].records[wk][d] = null
   } else {
     store[i].records[wk][d] = 'O'
-    store[i].monthly = (store[i].monthly||0) + 1
-    store[i].yearly  = (store[i].yearly||0) + 1
+    store[i].monthly = (store[i].monthly || 0) + 1
+    store[i].yearly  = (store[i].yearly  || 0) + 1
   }
   save(); render()
 }
-
 function rate(t) {
   const arr = Object.values(t.records).flat()
   const total = arr.filter(v => v !== null).length
-  const ok = arr.filter(v => v === 'O').length
+  const ok    = arr.filter(v => v === 'O').length
   return total ? Math.round(ok / total * 100) + '%' : '0%'
 }
 
+/* ════════════════════════════════
+   RENDER
+════════════════════════════════ */
 function render() {
-  const wk = weekKey()
+  const wk  = weekKey()
   const mon = getMonday(weekOffset)
   const sun = new Date(mon); sun.setDate(mon.getDate() + 6)
-
-  // 주차 & 날짜 범위
   document.getElementById('weekLabel').textContent = `📆 ${wk}`
-  document.getElementById('weekDates').textContent =
-    `${formatDate(mon)} ~ ${formatDate(sun)}`
+  document.getElementById('weekDates').textContent = `${fmtDate(mon)} ~ ${fmtDate(sun)}`
 
-  // 헤더 날짜 표시 + 오늘 강조
+  const dayNames = ['월','화','수','목','금','토','일']
   for (let i = 0; i < 7; i++) {
-    const th = document.getElementById('h' + i)
+    const th  = document.getElementById('h' + i)
     const day = new Date(mon); day.setDate(mon.getDate() + i)
-    const dayNames = ['월','화','수','목','금','토','일']
-    th.innerHTML = `${dayNames[i]}<br><span style="font-size:10px;font-weight:400;opacity:.85">${formatDate(day)}</span>`
+    th.innerHTML = `${dayNames[i]}<br><span style="font-size:10px;font-weight:400;opacity:.85">${fmtDate(day)}</span>`
     th.classList.toggle('today-col', i === todayDOW && weekOffset === 0)
-    if (i < 5) th.classList.remove('sat','sun')
   }
 
   const tbody = document.getElementById('tbody')
   tbody.innerHTML = ''
-
   document.getElementById('emptyState').style.display = store.length ? 'none' : 'block'
 
   store.forEach((t, i) => {
     if (!t.records[wk]) t.records[wk] = Array(DAYS).fill(null)
-
     const tr = document.createElement('tr')
     let html = `
       <td class="task-cell" title="${t.name}">${t.name}</td>
       <td class="stat">${t.monthly ?? 0}</td>
-      <td class="stat">${t.yearly ?? 0}</td>
-      <td class="pct">${rate(t)}</td>
-    `
+      <td class="stat">${t.yearly  ?? 0}</td>
+      <td class="pct">${rate(t)}</td>`
     t.records[wk].forEach((v, d) => {
-      const cls = v === 'O' ? 'o' : v === 'X' ? 'x' : ''
+      const cls      = v === 'O' ? 'o' : v === 'X' ? 'x' : ''
       const todayCls = (d === todayDOW && weekOffset === 0) ? 'today-col' : ''
-      const icon = v === 'O' ? '●' : v === 'X' ? '✕' : ''
+      const icon     = v === 'O' ? '●' : v === 'X' ? '✕' : ''
       html += `<td class="cell ${cls} ${todayCls}" onclick="toggle(${i},${d})">${icon}</td>`
     })
     html += `<td class="del-td"><button class="del-btn" onclick="deleteTask(${i})">삭제</button></td>`
@@ -566,9 +571,12 @@ function render() {
 
 function nextWeek() { weekOffset++; render() }
 function prevWeek() { weekOffset--; render() }
-function goToday() { weekOffset = 0; render() }
+function goToday()  { weekOffset = 0; render() }
 function toggleDark() { document.body.classList.toggle('dark') }
 
+/* ════════════════════════════════
+   LOCAL BACKUP / RESTORE
+════════════════════════════════ */
 function backup() {
   const blob = new Blob([JSON.stringify(store, null, 2)], { type: 'application/json' })
   const a = document.createElement('a')
@@ -576,25 +584,220 @@ function backup() {
   a.download = `tracker-backup-${new Date().toISOString().slice(0,10)}.json`
   a.click()
 }
-
 function restore(e) {
-  const file = e.target.files[0]
-  if (!file) return
+  const file = e.target.files[0]; if (!file) return
   const reader = new FileReader()
   reader.onload = () => {
-    try {
-      store = JSON.parse(reader.result)
-      save(); render()
-      alert('복원 완료!')
-    } catch {
-      alert('파일이 올바르지 않습니다.')
-    }
+    try { store = JSON.parse(reader.result); save(); render(); toast('✅ 복원 완료!') }
+    catch { toast('❌ 파일이 올바르지 않습니다') }
   }
   reader.readAsText(file)
-  e.target.value = '' // 동일 파일 재선택 허용
+  e.target.value = ''
 }
 
-render()
+/* ════════════════════════════════
+   TOAST
+════════════════════════════════ */
+let _toastTimer
+function toast(msg, dur = 2600) {
+  const el = document.getElementById('toast')
+  el.textContent = msg
+  el.classList.add('show')
+  clearTimeout(_toastTimer)
+  _toastTimer = setTimeout(() => el.classList.remove('show'), dur)
+}
+
+/* ════════════════════════════════
+   STATUS BAR
+════════════════════════════════ */
+function setStatus(msg, isErr = false) {
+  const el = document.getElementById('ghStatus')
+  el.textContent = msg
+  el.style.color = isErr ? 'var(--danger)' : ''
+  el.classList.toggle('no-token', false)
+}
+function updateStatusFromToken() {
+  const el = document.getElementById('ghStatus')
+  if (!ghToken) {
+    el.textContent = '토큰 미설정 — 🔑 버튼을 눌러 입력해 주세요'
+    el.classList.add('no-token')
+  } else {
+    el.textContent = `연결됨 → ${GH_OWNER}/${GH_REPO}/${GH_FILE}`
+    el.classList.remove('no-token')
+    el.style.color = ''
+  }
+}
+function setTime(msg) { document.getElementById('ghTime').textContent = msg }
+
+/* ════════════════════════════════
+   TOKEN MODAL
+════════════════════════════════ */
+function openTokenModal() {
+  document.getElementById('tokenInput').value = ghToken
+  document.getElementById('eyeBtn').textContent = '👁'
+  document.getElementById('tokenInput').type = 'password'
+  document.getElementById('tokenModal').classList.remove('hidden')
+}
+function closeTokenModal() {
+  document.getElementById('tokenModal').classList.add('hidden')
+}
+function toggleEye() {
+  const inp = document.getElementById('tokenInput')
+  const btn = document.getElementById('eyeBtn')
+  if (inp.type === 'password') { inp.type = 'text';     btn.textContent = '🙈' }
+  else                          { inp.type = 'password'; btn.textContent = '👁' }
+}
+function saveToken() {
+  const t = document.getElementById('tokenInput').value.trim()
+  if (!t) { toast('⚠️ 토큰을 입력해 주세요'); return }
+  ghToken = t
+  localStorage.setItem('trackerGhToken', ghToken)
+  closeTokenModal()
+  updateStatusFromToken()
+  toast('✅ 토큰 저장 완료!')
+}
+function resetToken() {
+  if (!confirm('토큰을 초기화하면 GitHub 동기화를 사용할 수 없습니다.\n계속할까요?')) return
+  ghToken = ''
+  localStorage.removeItem('trackerGhToken')
+  closeTokenModal()
+  updateStatusFromToken()
+  toast('🗑 토큰이 초기화되었습니다')
+}
+
+/* ════════════════════════════════
+   GITHUB CONTENTS API
+════════════════════════════════ */
+function ghHeaders() {
+  return {
+    'Authorization': `Bearer ${ghToken}`,
+    'Accept': 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28',
+    'Content-Type': 'application/json',
+  }
+}
+
+/* 파일 현재 SHA 조회 (업로드 시 필요) */
+async function getFileSha() {
+  const res = await fetch(`${GH_API_BASE}?ref=${GH_BRANCH}&t=${Date.now()}`, {
+    headers: ghHeaders()
+  })
+  if (res.status === 404) return null          // 파일 없음 → 신규 생성
+  if (!res.ok) throw new Error(`조회 실패 (${res.status})`)
+  const data = await res.json()
+  return data.sha
+}
+
+/* ── 업로드 ── */
+async function ghUpload() {
+  if (!ghToken) { openTokenModal(); toast('⚠️ 토큰을 먼저 설정해 주세요'); return }
+
+  setBtnState('up', true)
+  setStatus('⏳ 업로드 중...')
+
+  try {
+    const sha = await getFileSha()
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(store, null, 2))))
+
+    const body = {
+      message: `update: weekly-tracker ${fmtNow()}`,
+      content,
+      branch: GH_BRANCH,
+    }
+    if (sha) body.sha = sha   // 기존 파일 수정 시 SHA 필수
+
+    const res = await fetch(GH_API_BASE, {
+      method: 'PUT',
+      headers: ghHeaders(),
+      body: JSON.stringify(body)
+    })
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}))
+      throw new Error(err.message || `HTTP ${res.status}`)
+    }
+
+    setStatus(`✅ 업로드 완료 — ${GH_OWNER}/${GH_REPO}`)
+    setTime(`마지막 업로드: ${fmtNow()}`)
+    toast('✅ GitHub에 업로드 완료!')
+  } catch (e) {
+    console.error(e)
+    setStatus('❌ 업로드 실패: ' + e.message, true)
+    toast('❌ 업로드 실패: ' + e.message, 3500)
+  } finally {
+    setBtnState('up', false)
+  }
+}
+
+/* ── 다운로드 ── */
+async function ghDownload() {
+  if (!ghToken) { openTokenModal(); toast('⚠️ 토큰을 먼저 설정해 주세요'); return }
+
+  setBtnState('down', true)
+  setStatus('⏳ 다운로드 중...')
+
+  try {
+    const res = await fetch(`${GH_API_BASE}?ref=${GH_BRANCH}&t=${Date.now()}`, {
+      headers: ghHeaders()
+    })
+    if (res.status === 404) {
+      setStatus('⚠️ 저장소에 데이터 없음 (업로드 먼저)', true)
+      toast('⚠️ 저장소에 저장된 데이터가 없습니다')
+      return
+    }
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}))
+      throw new Error(err.message || `HTTP ${res.status}`)
+    }
+    const data = await res.json()
+    // GitHub API는 base64로 인코딩해서 반환
+    const decoded = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))))
+    const remote = JSON.parse(decoded)
+
+    if (!confirm(`GitHub 데이터(${remote.length}개 항목)로 현재 기기 데이터를 덮어쓸까요?\n현재 데이터는 사라집니다.`)) {
+      setStatus(`연결됨 → ${GH_OWNER}/${GH_REPO}/${GH_FILE}`)
+      return
+    }
+
+    store = remote
+    save(); render()
+    setStatus(`✅ 다운로드 완료 — ${GH_OWNER}/${GH_REPO}`)
+    setTime(`마지막 다운로드: ${fmtNow()}`)
+    toast('✅ GitHub에서 다운로드 완료!')
+  } catch (e) {
+    console.error(e)
+    setStatus('❌ 다운로드 실패: ' + e.message, true)
+    toast('❌ 다운로드 실패: ' + e.message, 3500)
+  } finally {
+    setBtnState('down', false)
+  }
+}
+
+/* ── 버튼 로딩 상태 ── */
+function setBtnState(which, loading) {
+  const btn = which === 'up'
+    ? document.getElementById('btnUp')
+    : document.getElementById('btnDown')
+  if (loading) {
+    btn.dataset.orig = btn.innerHTML
+    btn.innerHTML = `<span class="spinning">⟳</span> ${which === 'up' ? '업로드' : '다운로드'} 중`
+    btn.disabled = true; btn.style.opacity = '.7'
+  } else {
+    btn.innerHTML = btn.dataset.orig || (which === 'up' ? '↑ 업로드' : '↓ 다운로드')
+    btn.disabled = false; btn.style.opacity = ''
+  }
+}
+
+/* ════════════════════════════════
+   INIT
+════════════════════════════════ */
+function init() {
+  updateStatusFromToken()
+  // 토큰 없을 때 최초 1회 모달 자동 오픈
+  if (!ghToken) setTimeout(openTokenModal, 500)
+  render()
+}
+
+init()
 </script>
 </body>
 </html>
